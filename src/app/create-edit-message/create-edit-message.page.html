@@ -1,14 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Crear Nuevo Mensaje</ion-title>
+    <ion-title>{{textEdit}} Mensaje</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-textarea placeholder="¿Qué estas pensando?"></ion-textarea>
-  </ion-item>
-  <div class="ion-margin">
-    <ion-button expand="block">Save</ion-button>
-  </div>
+  <form (ngSubmit)="createUpdateMessage()">
+    <ion-item>
+      <ion-textarea placeholder="¿Qué estas pensando?" [(ngModel)]="textMessage" name="text" [autoGrow]="true"></ion-textarea>
+    </ion-item>
+    <ion-button ion-button expand="block" type="submit" block>{{textEdit}}</ion-button>
+  </form>
 </ion-content>

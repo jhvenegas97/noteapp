@@ -20,10 +20,10 @@
   </ion-header>
   
   <ion-list>
-    <app-message *ngFor="let message of getMessages()" [message]="message"></app-message>
+    <app-message *ngFor="let message of messages" [message]="message"></app-message>
   </ion-list>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="createNote()">
+    <ion-fab-button (click)="createMessage()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
 </ion-fab>

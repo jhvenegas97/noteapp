@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Message } from '../services/data.service';
+import { Message } from '../interface/Message';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-message',
@@ -10,7 +12,7 @@ import { Message } from '../services/data.service';
 export class MessageComponent implements OnInit {
   @Input() message: Message;
 
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController, private dataService: DataService,private router: Router) { }
 
   ngOnInit() {}
 
@@ -19,11 +21,11 @@ export class MessageComponent implements OnInit {
     return win && win.Ionic && win.Ionic.mode === 'ios';
   }
 
-  edit(){
-
+  edit(guid){
+    this.router.navigate(['/create-edit-message',guid]);
   }
 
-  async deleteNote(){
+  async deleteMessage(guid){
     const alert = await this.alertController.create({
       header: 'Realmente deseas eliminar el mensaje?',
       buttons: [
@@ -31,14 +33,30 @@ export class MessageComponent implements OnInit {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
-            //TODO: Do nothing
           },
         },
         {
           text: 'Eliminar',
           role: 'confirm',
           handler: () => {
-            //TODO: Delete Message
+            this.dataService.getMessages().subscribe(res=>{
+              let dataMessages = JSON.parse(res);
+              let messageToDelete;
+              dataMessages.forEach(element => {
+                if(element.id == guid){
+                  messageToDelete = element;
+                }
+              });
+
+              if(messageToDelete != undefined){
+                dataMessages.splice(dataMessages.indexOf(messageToDelete),1);
+                this.dataService.addUpdateMessage(dataMessages).subscribe(res=>{
+                  this.router.navigate(['/']).then(()=>{
+                    window.location.reload();
+                  });
+                });
+              }
+            });
           },
         },
       ],
