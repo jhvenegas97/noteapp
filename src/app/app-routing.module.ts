@@ -15,6 +15,12 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'create-edit-message',
+    loadChildren: () => import('./create-edit-message/create-edit-message.module').then( m => m.CreateEditMessagePageModule)
+  },
+
+
 ];
 
 @NgModule({

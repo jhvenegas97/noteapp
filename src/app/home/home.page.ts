@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { DataService, Message } from '../services/data.service';
 
 @Component({
@@ -7,7 +9,7 @@ import { DataService, Message } from '../services/data.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private data: DataService) {}
+  constructor(private data: DataService, private router: Router) {}
 
   refresh(ev) {
     setTimeout(() => {
@@ -17,6 +19,10 @@ export class HomePage {
 
   getMessages(): Message[] {
     return this.data.getMessages();
+  }
+
+  createNote(){
+    this.router.navigate(['/create-edit-message']);
   }
 
 }
